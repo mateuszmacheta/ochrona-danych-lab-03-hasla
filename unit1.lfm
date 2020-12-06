@@ -1,0 +1,321 @@
+object Form1: TForm1
+  Left = 405
+  Height = 674
+  Top = 170
+  Width = 1090
+  Caption = 'Hasła - Mateusz Macheta 141147, 2020/21, wydzial techniki i informatyki, semestr V'
+  ClientHeight = 674
+  ClientWidth = 1090
+  DesignTimePPI = 120
+  OnCreate = FormCreate
+  LCLVersion = '2.0.10.0'
+  object GroupBox1: TGroupBox
+    Left = 24
+    Height = 528
+    Top = 136
+    Width = 361
+    Caption = 'Wymagania'
+    ClientHeight = 503
+    ClientWidth = 357
+    TabOrder = 2
+    object CheckBox1: TCheckBox
+      Left = 24
+      Height = 24
+      Top = 128
+      Width = 110
+      Caption = 'Wielkie litery'
+      OnChange = CheckBox1Change
+      TabOrder = 0
+    end
+    object Label3: TLabel
+      Left = 171
+      Height = 20
+      Top = 89
+      Width = 133
+      Caption = 'Minimum wystąpień'
+      ParentColor = False
+    end
+    object Edit_wielkieMin: TEdit
+      Left = 168
+      Height = 28
+      Top = 130
+      Width = 71
+      Enabled = False
+      NumbersOnly = True
+      TabOrder = 1
+    end
+    object Min: TLabel
+      Left = 32
+      Height = 20
+      Top = 40
+      Width = 25
+      Caption = 'Min'
+      ParentColor = False
+    end
+    object Max: TLabel
+      Left = 182
+      Height = 20
+      Top = 40
+      Width = 28
+      Caption = 'Max'
+      ParentColor = False
+    end
+    object Label6: TLabel
+      Left = 26
+      Height = 20
+      Top = 299
+      Width = 82
+      Caption = 'Wykluczenia'
+      ParentColor = False
+    end
+    object CheckBox5: TCheckBox
+      Left = 24
+      Height = 24
+      Top = 341
+      Width = 126
+      Caption = 'Znaki specjalne'
+      TabOrder = 2
+    end
+    object CheckBox6: TCheckBox
+      Left = 24
+      Height = 24
+      Top = 376
+      Width = 194
+      Caption = 'Polskie znaki diakrytyczne'
+      TabOrder = 3
+    end
+  end
+  object Label1: TLabel
+    Left = 28
+    Height = 57
+    Top = 22
+    Width = 106
+    Caption = '&Hasło'
+    FocusControl = Edit_haslo
+    Font.Height = -42
+    ParentColor = False
+    ParentFont = False
+  end
+  object Edit_haslo: TEdit
+    Left = 160
+    Height = 65
+    Top = 19
+    Width = 880
+    Font.Height = -42
+    Font.Style = [fsBold]
+    OnChange = Edit_hasloChange
+    ParentFont = False
+    TabOrder = 0
+  end
+  object Label2: TLabel
+    Left = 48
+    Height = 20
+    Top = 168
+    Width = 54
+    Caption = 'Długość'
+    ParentColor = False
+  end
+  object Edit_maxDlugosc: TEdit
+    Left = 256
+    Height = 28
+    Top = 200
+    Width = 64
+    NumbersOnly = True
+    TabOrder = 1
+  end
+  object CheckBox2: TCheckBox
+    Left = 48
+    Height = 24
+    Top = 328
+    Width = 94
+    Caption = 'Małe litery'
+    OnChange = CheckBox2Change
+    TabOrder = 3
+  end
+  object CheckBox3: TCheckBox
+    Left = 48
+    Height = 24
+    Top = 368
+    Width = 57
+    Caption = 'Cyfry'
+    OnChange = CheckBox3Change
+    TabOrder = 4
+  end
+  object Edit_maleMin: TEdit
+    Left = 192
+    Height = 28
+    Top = 328
+    Width = 71
+    Enabled = False
+    NumbersOnly = True
+    TabOrder = 5
+  end
+  object Edit_cyfryMin: TEdit
+    Left = 192
+    Height = 28
+    Top = 368
+    Width = 71
+    Enabled = False
+    NumbersOnly = True
+    TabOrder = 6
+  end
+  object CheckBox4: TCheckBox
+    Left = 48
+    Height = 24
+    Top = 408
+    Width = 126
+    Caption = 'Znaki specjalne'
+    OnChange = CheckBox4Change
+    TabOrder = 7
+  end
+  object Edit_specjalMin: TEdit
+    Left = 192
+    Height = 28
+    Top = 408
+    Width = 71
+    Enabled = False
+    NumbersOnly = True
+    TabOrder = 8
+  end
+  object Edit_minDlugosc: TEdit
+    Left = 112
+    Height = 28
+    Top = 200
+    Width = 64
+    NumbersOnly = True
+    TabOrder = 9
+  end
+  object Button_sprawdz: TButton
+    Left = 440
+    Height = 58
+    Top = 144
+    Width = 171
+    Caption = 'Sprawdź'
+    OnClick = Button_sprawdzClick
+    TabOrder = 10
+  end
+  object Button_info: TButton
+    Left = 640
+    Height = 58
+    Top = 144
+    Width = 171
+    Caption = 'Info'
+    OnClick = Button_infoClick
+    TabOrder = 11
+  end
+  object Button_zapisz: TButton
+    Left = 846
+    Height = 56
+    Top = 142
+    Width = 164
+    Caption = 'Zapisz'
+    OnClick = Button_zapiszClick
+    TabOrder = 12
+  end
+  object Label4: TLabel
+    Left = 32
+    Height = 20
+    Top = 104
+    Width = 92
+    Caption = 'Długość hasla'
+    ParentColor = False
+  end
+  object Edit_dlugosc: TEdit
+    Left = 160
+    Height = 28
+    Top = 101
+    Width = 130
+    ReadOnly = True
+    TabOrder = 13
+  end
+  object GroupBox2: TGroupBox
+    Left = 432
+    Height = 436
+    Top = 227
+    Width = 585
+    Caption = 'Odgadnij haslo'
+    ClientHeight = 411
+    ClientWidth = 581
+    TabOrder = 14
+    object Label5: TLabel
+      Left = 24
+      Height = 20
+      Top = 16
+      Width = 54
+      Caption = 'Długość'
+      ParentColor = False
+    end
+    object Edit_odgDlugosc: TEdit
+      Left = 100
+      Height = 28
+      Top = 15
+      Width = 84
+      NumbersOnly = True
+      TabOrder = 0
+      Text = '1'
+    end
+    object odgWielkie: TCheckBox
+      Left = 26
+      Height = 24
+      Top = 56
+      Width = 110
+      Caption = 'Wielkie litery'
+      OnChange = odgWielkieChange
+      TabOrder = 1
+    end
+    object odgMale: TCheckBox
+      Left = 26
+      Height = 24
+      Top = 98
+      Width = 94
+      Caption = 'Małe litery'
+      Checked = True
+      OnChange = odgMaleChange
+      State = cbChecked
+      TabOrder = 2
+    end
+    object odgCyfry: TCheckBox
+      Left = 26
+      Height = 24
+      Top = 137
+      Width = 57
+      Caption = 'Cyfry'
+      OnChange = odgCyfryChange
+      TabOrder = 3
+    end
+    object odgSpecjal: TCheckBox
+      Left = 24
+      Height = 24
+      Top = 174
+      Width = 126
+      Caption = 'Znaki specjalne'
+      OnChange = odgSpecjalChange
+      TabOrder = 4
+    end
+    object Memo1: TMemo
+      Left = 24
+      Height = 169
+      Top = 221
+      Width = 544
+      TabOrder = 5
+    end
+    object Button1: TButton
+      Left = 400
+      Height = 61
+      Top = 15
+      Width = 158
+      Caption = 'Wyczysc'
+      OnClick = Button1Click
+      TabOrder = 7
+    end
+    object Button_odg: TButton
+      Left = 208
+      Height = 60
+      Top = 16
+      Width = 161
+      Caption = 'Odgadnij'
+      OnClick = Button_odgClick
+      TabOrder = 6
+    end
+  end
+end
