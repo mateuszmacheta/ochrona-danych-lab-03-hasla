@@ -1,18 +1,18 @@
 object Form1: TForm1
-  Left = 405
-  Height = 674
-  Top = 170
+  Left = 408
+  Height = 744
+  Top = 157
   Width = 1090
   Caption = 'Hasła - Mateusz Macheta 141147, 2020/21, wydzial techniki i informatyki, semestr V'
-  ClientHeight = 674
-  ClientWidth = 1090
+  ClientHeight = 0
+  ClientWidth = 0
   DesignTimePPI = 120
   OnCreate = FormCreate
   LCLVersion = '2.0.10.0'
   object GroupBox1: TGroupBox
-    Left = 24
+    Left = 28
     Height = 528
-    Top = 136
+    Top = 203
     Width = 361
     Caption = 'Wymagania'
     ClientHeight = 503
@@ -108,130 +108,130 @@ object Form1: TForm1
     TabOrder = 0
   end
   object Label2: TLabel
-    Left = 48
+    Left = 52
     Height = 20
-    Top = 168
+    Top = 235
     Width = 54
     Caption = 'Długość'
     ParentColor = False
   end
   object Edit_maxDlugosc: TEdit
-    Left = 256
+    Left = 260
     Height = 28
-    Top = 200
+    Top = 267
     Width = 64
     NumbersOnly = True
     TabOrder = 1
   end
   object CheckBox2: TCheckBox
-    Left = 48
+    Left = 52
     Height = 24
-    Top = 328
+    Top = 395
     Width = 94
     Caption = 'Małe litery'
     OnChange = CheckBox2Change
     TabOrder = 3
   end
   object CheckBox3: TCheckBox
-    Left = 48
+    Left = 52
     Height = 24
-    Top = 368
+    Top = 435
     Width = 57
     Caption = 'Cyfry'
     OnChange = CheckBox3Change
     TabOrder = 4
   end
   object Edit_maleMin: TEdit
-    Left = 192
+    Left = 196
     Height = 28
-    Top = 328
+    Top = 395
     Width = 71
     Enabled = False
     NumbersOnly = True
     TabOrder = 5
   end
   object Edit_cyfryMin: TEdit
-    Left = 192
+    Left = 196
     Height = 28
-    Top = 368
+    Top = 435
     Width = 71
     Enabled = False
     NumbersOnly = True
     TabOrder = 6
   end
   object CheckBox4: TCheckBox
-    Left = 48
+    Left = 52
     Height = 24
-    Top = 408
+    Top = 475
     Width = 126
     Caption = 'Znaki specjalne'
     OnChange = CheckBox4Change
     TabOrder = 7
   end
   object Edit_specjalMin: TEdit
-    Left = 192
+    Left = 196
     Height = 28
-    Top = 408
+    Top = 475
     Width = 71
     Enabled = False
     NumbersOnly = True
     TabOrder = 8
   end
   object Edit_minDlugosc: TEdit
-    Left = 112
+    Left = 116
     Height = 28
-    Top = 200
+    Top = 267
     Width = 64
     NumbersOnly = True
     TabOrder = 9
   end
   object Button_sprawdz: TButton
-    Left = 440
+    Left = 444
     Height = 58
-    Top = 144
+    Top = 211
     Width = 171
     Caption = 'Sprawdź'
     OnClick = Button_sprawdzClick
     TabOrder = 10
   end
   object Button_info: TButton
-    Left = 640
+    Left = 644
     Height = 58
-    Top = 144
+    Top = 211
     Width = 171
     Caption = 'Info'
     OnClick = Button_infoClick
     TabOrder = 11
   end
   object Button_zapisz: TButton
-    Left = 846
+    Left = 850
     Height = 56
-    Top = 142
+    Top = 209
     Width = 164
     Caption = 'Zapisz'
     OnClick = Button_zapiszClick
     TabOrder = 12
   end
   object Label4: TLabel
-    Left = 32
+    Left = 36
     Height = 20
-    Top = 104
+    Top = 171
     Width = 92
     Caption = 'Długość hasla'
     ParentColor = False
   end
   object Edit_dlugosc: TEdit
-    Left = 160
+    Left = 164
     Height = 28
-    Top = 101
+    Top = 168
     Width = 130
     ReadOnly = True
     TabOrder = 13
   end
   object GroupBox2: TGroupBox
-    Left = 432
+    Left = 436
     Height = 436
-    Top = 227
+    Top = 294
     Width = 585
     Caption = 'Odgadnij haslo'
     ClientHeight = 411
@@ -317,5 +317,67 @@ object Form1: TForm1
       OnClick = Button_odgClick
       TabOrder = 6
     end
+  end
+  object Button_szyfrujXOR: TButton
+    Left = 348
+    Height = 31
+    Top = 168
+    Width = 94
+    Caption = 'Szyfruj XOR'
+    TabOrder = 15
+  end
+  object Button_deszyfrujXOR: TButton
+    Left = 452
+    Height = 31
+    Top = 168
+    Width = 104
+    Caption = 'Deszyfruj XOR'
+    TabOrder = 16
+  end
+  object Button_obliczSHA: TButton
+    Left = 564
+    Height = 31
+    Top = 168
+    Width = 94
+    Caption = 'Oblicz SHA'
+    OnClick = Button_obliczSHAClick
+    TabOrder = 17
+  end
+  object Button_szyfrujVernam: TButton
+    Left = 668
+    Height = 31
+    Top = 168
+    Width = 168
+    Caption = 'Szyfruj kodem Vernama'
+    TabOrder = 18
+  end
+  object Button_deszyfrujVernam: TButton
+    Left = 844
+    Height = 31
+    Top = 168
+    Width = 184
+    Caption = 'Deszyfruj kodem Vernama'
+    TabOrder = 19
+  end
+  object Label7: TLabel
+    Left = 28
+    Height = 54
+    Top = 102
+    Width = 75
+    Caption = 'SHA'
+    Font.Height = -40
+    ParentColor = False
+    ParentFont = False
+  end
+  object Edit_sha: TEdit
+    Left = 161
+    Height = 31
+    Top = 112
+    Width = 877
+    Font.Height = -20
+    Font.Name = 'Consolas'
+    ParentFont = False
+    ReadOnly = True
+    TabOrder = 20
   end
 end

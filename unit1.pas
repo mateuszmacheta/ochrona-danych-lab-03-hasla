@@ -8,7 +8,7 @@ interface
 
 uses
   Classes, SysUtils, DateUtils, Forms, Controls, Graphics, Dialogs,
-  StdCtrls, LCLType, Math;
+  StdCtrls, LCLType, Math, DCPsha256;
 
 type
 
@@ -17,6 +17,11 @@ type
 
   TForm1 = class(TForm)
     Button1: TButton;
+    Button_szyfrujXOR: TButton;
+    Button_deszyfrujXOR: TButton;
+    Button_obliczSHA: TButton;
+    Button_szyfrujVernam: TButton;
+    Button_deszyfrujVernam: TButton;
     Button_odg: TButton;
     Button_zapisz: TButton;
     Button_sprawdz: TButton;
@@ -27,7 +32,9 @@ type
     CheckBox4: TCheckBox;
     CheckBox5: TCheckBox;
     CheckBox6: TCheckBox;
+    Edit_sha: TEdit;
     Label6: TLabel;
+    Label7: TLabel;
     Memo1: TMemo;
     odgWielkie: TCheckBox;
     odgMale: TCheckBox;
@@ -53,6 +60,7 @@ type
     Min: TLabel;
     procedure Button1Click(Sender: TObject);
     procedure Button_infoClick(Sender: TObject);
+    procedure Button_obliczSHAClick(Sender: TObject);
     procedure Button_odgClick(Sender: TObject);
     procedure Button_sprawdzClick(Sender: TObject);
     procedure Button_zapiszClick(Sender: TObject);
@@ -83,6 +91,31 @@ implementation
 
 var
   odgZnaki: string;
+Type ArrayOfByte = Array[1..32] of Byte;
+
+  function Oblicz_SHA256( Dane : String) : ArrayOfByte;
+    var
+    DCP_sha256 : TDCP_sha256;
+    Skrot      : array[1..32] of byte;  // algorytm sha256 generuje skrót o dług. 32 bajtów
+    begin
+  DCP_sha256:=TDCP_sha256.Create(nil);
+    DCP_sha256.Init;
+    DCP_sha256.UpdateStr(Dane);
+    DCP_sha256.Final(Skrot);  // obliczony skrót w postaci binarnej
+    DCP_sha256.Destroy;
+    Oblicz_SHA256:=Skrot;
+end;
+
+  function SHA256ToHex(Skrot : ArrayOfByte) : String;
+    var
+    i          : integer;
+    HexStr     : string;   // obliczony skrót w postaci heksadecymalnej
+    begin
+    HexStr:= '';
+      for i:= 1 to 32 do
+          HexStr:= HexStr + IntToHex(Skrot[i],2);
+  SHA256ToHex:=HexStr;
+  end;
 
 procedure odswiezOdgZnaki;
 var
@@ -344,6 +377,11 @@ begin
     'Hasła - Mateusz Macheta 141147, 2020/21, wydzial techniki i informatyki, semestr V',
     'Info',
     MB_OK);
+end;
+
+procedure TForm1.Button_obliczSHAClick(Sender: TObject);
+begin
+       Edit_sha.Text:= SHA256ToHex(Oblicz_SHA256(Edit_haslo.Text));
 end;
 
 procedure TForm1.Button_odgClick(Sender: TObject);
