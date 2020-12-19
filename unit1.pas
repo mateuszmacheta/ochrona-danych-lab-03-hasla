@@ -1,4 +1,4 @@
-// Hasła - Mateusz Macheta 141147, 2020/21, wydzial techniki i informatyki, semestr V
+// Hasła2 - Mateusz Macheta 141147, 2020/21, wydzial techniki i informatyki, semestr V
 
 unit Unit1;
 
@@ -8,7 +8,7 @@ interface
 
 uses
   Classes, SysUtils, DateUtils, Forms, Controls, Graphics, Dialogs,
-  StdCtrls, LCLType, Math, DCPsha256;
+  StdCtrls, LCLType, Math, DCPsha256, strutils;
 
 type
 
@@ -63,6 +63,7 @@ type
     procedure Button_obliczSHAClick(Sender: TObject);
     procedure Button_odgClick(Sender: TObject);
     procedure Button_sprawdzClick(Sender: TObject);
+    procedure Button_szyfrujXORClick(Sender: TObject);
     procedure Button_zapiszClick(Sender: TObject);
     procedure CheckBox1Change(Sender: TObject);
     procedure CheckBox2Change(Sender: TObject);
@@ -91,9 +92,14 @@ implementation
 
 var
   odgZnaki: string;
-Type ArrayOfByte = Array[1..32] of Byte;
+Type ArrayOf32Byte = Array[1..32] of Byte;
+Type ArrayOf4Byte = Array[1..4] of Byte;
+Type ArrayOfByte =  Array of Byte;
 
-  function Oblicz_SHA256( Dane : String) : ArrayOfByte;
+var
+  xorHaslo: ArrayOf4Byte;
+
+  function Oblicz_SHA256( Dane : String) : ArrayOf32Byte;
     var
     DCP_sha256 : TDCP_sha256;
     Skrot      : array[1..32] of byte;  // algorytm sha256 generuje skrót o dług. 32 bajtów
@@ -106,7 +112,7 @@ Type ArrayOfByte = Array[1..32] of Byte;
     Oblicz_SHA256:=Skrot;
 end;
 
-  function SHA256ToHex(Skrot : ArrayOfByte) : String;
+function SHA256ToHex(Skrot : ArrayOf32Byte) : String;
     var
     i          : integer;
     HexStr     : string;   // obliczony skrót w postaci heksadecymalnej
@@ -114,8 +120,55 @@ end;
     HexStr:= '';
       for i:= 1 to 32 do
           HexStr:= HexStr + IntToHex(Skrot[i],2);
-  SHA256ToHex:=HexStr;
+          SHA256ToHex:=HexStr;
   end;
+Function HexToStr(s: String): String;
+  Var i: Integer;
+  Begin
+    Result:=''; i:=1;
+    While i<Length(s) Do Begin
+      Result:=Result+Chr(StrToIntDef('$'+Copy(s,i,2),0));
+      Inc(i,2);
+    End;
+  End;
+
+Function byteArray2Str(szyfrogram: array of Byte) : String;
+var output: string;
+    i: integer;
+Begin
+     for i:= 1 to 4 do
+     Begin
+       output := output + Char(szyfrogram[i]);
+     end;
+     exit(output);
+End;
+
+function wykonajXOR(input : String) : ArrayOfByte;
+var
+   C, nullC: char;
+   i, sLen, maks: integer;
+   B: byte;
+   output: ArrayOfByte;
+begin
+   nullC := Char(0);
+  // dopasowac dlugosc ciagu do wielokrotnosci 4
+  sLen := input.Length;
+
+  for i:=0 to (4 - sLen Mod 4) do
+  begin
+       input := input + nullC;
+  end;
+
+  maks := Max(sLen, 4);
+  setLength(output,maks);
+    for i:= 1 to maks do
+        begin
+        C := input[i];
+        B := Ord(C);
+        output[i] := B xor xorHaslo[((i-1) Mod sLen)+1];
+        end;
+   exit(output);
+end;
 
 procedure odswiezOdgZnaki;
 var
@@ -374,7 +427,7 @@ end;
 procedure TForm1.Button_infoClick(Sender: TObject);
 begin
   Application.MessageBox(
-    'Hasła - Mateusz Macheta 141147, 2020/21, wydzial techniki i informatyki, semestr V',
+    'Hasła2 - Mateusz Macheta 141147, 2020/21, wydzial techniki i informatyki, semestr V',
     'Info',
     MB_OK);
 end;
@@ -397,6 +450,19 @@ end;
 procedure TForm1.Button_sprawdzClick(Sender: TObject);
 begin
   WalidacjaHasla;
+end;
+
+procedure TForm1.Button_szyfrujXORClick(Sender: TObject);
+var
+  tekst: string;
+  szyfrogram: array of byte;
+  szyfrogramTekst: string;
+begin
+  //tekst := InputBox('XOR','Wprowadź tekst to sprawdzenia szyfrowania XOR', 'Madana Mohana Murari');
+  tekst := Edit_haslo.Text;
+  szyfrogram := wykonajXOR(tekst);
+  szyfrogramTekst := byteArray2Str(szyfrogram);
+  Application.MessageBox(PChar(tekst),'Zaszyfrowany tekst w postaci heksadecymalnej',MB_OK);
 end;
 
 procedure TForm1.Button_zapiszClick(Sender: TObject);
@@ -449,6 +515,10 @@ end;
 procedure TForm1.FormCreate(Sender: TObject);
 begin
   odswiezOdgZnaki;
+  xorHaslo[1] := 138;
+  xorHaslo[2] := 58;
+  xorHaslo[3] := 165;
+  xorHaslo[4] := 57;
 end;
 
 procedure TForm1.odgCyfryChange(Sender: TObject);
