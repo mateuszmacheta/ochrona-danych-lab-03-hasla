@@ -154,9 +154,14 @@ begin
   // dopasowac dlugosc ciagu do wielokrotnosci 4
   sLen := input.Length;
 
-  for i:=0 to (4 - sLen Mod 4) do
+  if (sLen Mod 4 <> 0) then
   begin
-       input := input + nullC;
+    for i:=1 to (4 - sLen Mod 4) do
+    begin
+         input := input + nullC;
+         Inc(sLen);
+         //DEBUG Application.MessageBox(PChar(IntToStr(Length(input)) + ' ' + input), Pchar(IntToStr(i)), MB_OK);
+    end;
   end;
 
   maks := Max(sLen, 4);
@@ -165,7 +170,7 @@ begin
         begin
         C := input[i];
         B := Ord(C);
-        output[i] := B xor xorHaslo[((i-1) Mod sLen)+1];
+        output[i-1] := B xor xorHaslo[((i-1) Mod 4)+1];
         end;
    exit(output);
 end;
@@ -454,15 +459,20 @@ end;
 
 procedure TForm1.Button_szyfrujXORClick(Sender: TObject);
 var
+  i: integer;
   tekst: string;
   szyfrogram: array of byte;
   szyfrogramTekst: string;
 begin
-  //tekst := InputBox('XOR','Wprowadź tekst to sprawdzenia szyfrowania XOR', 'Madana Mohana Murari');
-  tekst := Edit_haslo.Text;
+  tekst := InputBox('XOR','Wprowadź tekst to sprawdzenia szyfrowania XOR', Edit_haslo.Text);
+  //tekst := Edit_haslo.Text;
   szyfrogram := wykonajXOR(tekst);
-  szyfrogramTekst := byteArray2Str(szyfrogram);
-  Application.MessageBox(PChar(tekst),'Zaszyfrowany tekst w postaci heksadecymalnej',MB_OK);
+  szyfrogramTekst := '';
+  for i:=1 to Length(szyfrogram) do
+  begin
+    szyfrogramTekst := szyfrogramTekst + IntToHex(szyfrogram[i-1],2);
+  end;
+  InputBox('Wynik XOR','Zaszyfrowany tekst: >' + tekst + '<' , PChar(szyfrogramTekst));
 end;
 
 procedure TForm1.Button_zapiszClick(Sender: TObject);
