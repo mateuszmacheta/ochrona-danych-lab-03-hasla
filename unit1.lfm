@@ -1,7 +1,7 @@
 object Form1: TForm1
-  Left = 414
+  Left = 406
   Height = 744
-  Top = 73
+  Top = 41
   Width = 1090
   Caption = 'Hasła2 - Mateusz Macheta 141147, 2020/21, wydzial techniki i informatyki, semestr V'
   ClientHeight = 744
@@ -360,6 +360,7 @@ object Form1: TForm1
     Top = 168
     Width = 168
     Caption = 'Szyfruj kodem Vernama'
+    OnClick = Button_szyfrujVernamClick
     TabOrder = 18
   end
   object Button_deszyfrujVernam: TButton
@@ -368,6 +369,7 @@ object Form1: TForm1
     Top = 168
     Width = 184
     Caption = 'Deszyfruj kodem Vernama'
+    OnClick = Button_deszyfrujVernamClick
     TabOrder = 19
   end
   object Label7: TLabel

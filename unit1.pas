@@ -60,12 +60,14 @@ type
     Max: TLabel;
     Min: TLabel;
     procedure Button1Click(Sender: TObject);
+    procedure Button_deszyfrujVernamClick(Sender: TObject);
     procedure Button_deszyfrujXORClick(Sender: TObject);
     procedure Button_infoClick(Sender: TObject);
     procedure Button_obliczSHAClick(Sender: TObject);
     procedure Button_odgClick(Sender: TObject);
     procedure Button_odgShaClick(Sender: TObject);
     procedure Button_sprawdzClick(Sender: TObject);
+    procedure Button_szyfrujVernamClick(Sender: TObject);
     procedure Button_szyfrujXORClick(Sender: TObject);
     procedure Button_zapiszClick(Sender: TObject);
     procedure CheckBox1Change(Sender: TObject);
@@ -167,6 +169,107 @@ begin
         output[i-1] := B xor xorHaslo[((i-1) Mod 4)+1];
         end;
    exit(output);
+end;
+
+procedure szyfrujVernam;
+var
+  plikTekstowy    : File of Char;
+  C : Char;
+  tekst,kluczVernama: String;
+  dlugoscPliku, i: Integer;
+begin
+  kluczVernama:= '';
+  AssignFile(plikTekstowy, 'oryginal.txt');
+  Reset(plikTekstowy);
+  tekst := '';
+
+   while not eof(plikTekstowy)
+     do begin
+       read(plikTekstowy, C);
+       tekst := tekst + C;
+     end;
+
+   CloseFile(plikTekstowy);
+
+   dlugoscPliku := Length(tekst);
+
+   randomize();
+
+   for i := 1 to dlugoscPliku do
+   begin
+     kluczVernama := kluczVernama + Chr(random(256));
+   end;
+
+   Assignfile(plikTekstowy, 'klucz.txt');
+   ReWrite(plikTekstowy);
+
+   for i := 1 to dlugoscPliku do
+    begin
+      C := kluczVernama[i];
+      Write(plikTekstowy, C);
+    end;
+
+   CloseFile(plikTekstowy);
+
+   Assignfile(plikTekstowy, 'szyfrogram.txt');
+   ReWrite(plikTekstowy);
+
+   for i := 1 to dlugoscPliku do
+    begin
+      C := Chr(Ord(tekst[i]) xor Ord(kluczVernama[i]));
+      Write(plikTekstowy, C);
+    end;
+
+   CloseFile(plikTekstowy);
+   Application.MessageBox('Plik oryginal.txt został zaszyfrowany kodem Vernama', 'Zaszyfrowanie');
+
+end;
+
+procedure deszyfrujVernam;
+var
+  plikTekstowy    : File of Char;
+  C : Char;
+  tekst,kluczVernama: String;
+  dlugoscPliku, i: Integer;
+begin
+  kluczVernama:= '';
+  AssignFile(plikTekstowy, 'klucz.txt');
+  Reset(plikTekstowy);
+
+   while not eof(plikTekstowy)
+     do begin
+       read(plikTekstowy, C);
+       kluczVernama := kluczVernama + C;
+     end;
+
+   CloseFile(plikTekstowy);
+
+  AssignFile(plikTekstowy, 'szyfrogram.txt');
+  Reset(plikTekstowy);
+  tekst := '';
+
+   while not eof(plikTekstowy)
+     do begin
+       read(plikTekstowy, C);
+       tekst := tekst + C;
+     end;
+
+   CloseFile(plikTekstowy);
+
+   dlugoscPliku := Length(tekst);
+
+   Assignfile(plikTekstowy, 'oryginalOdzyskany.txt');
+   ReWrite(plikTekstowy);
+
+   for i := 1 to dlugoscPliku do
+    begin
+      C := Chr(Ord(tekst[i]) xor Ord(kluczVernama[i]));
+      Write(plikTekstowy, C);
+    end;
+
+   CloseFile(plikTekstowy);
+   Application.MessageBox('Plik szyfrogram.txt został odszyfrowany kodem Vernama', 'Odszyfrowanie');
+
 end;
 
 procedure odswiezOdgZnaki;
@@ -539,6 +642,16 @@ end;
 procedure TForm1.Button_sprawdzClick(Sender: TObject);
 begin
   WalidacjaHasla;
+end;
+
+procedure TForm1.Button_szyfrujVernamClick(Sender: TObject);
+begin
+  szyfrujVernam();
+end;
+
+procedure TForm1.Button_deszyfrujVernamClick(Sender: TObject);
+begin
+  deszyfrujVernam();
 end;
 
 procedure TForm1.Button_szyfrujXORClick(Sender: TObject);
