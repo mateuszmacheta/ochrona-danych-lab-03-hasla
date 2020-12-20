@@ -17,6 +17,7 @@ type
 
   TForm1 = class(TForm)
     Button1: TButton;
+    Button_odgSha: TButton;
     Button_szyfrujXOR: TButton;
     Button_deszyfrujXOR: TButton;
     Button_obliczSHA: TButton;
@@ -63,6 +64,7 @@ type
     procedure Button_infoClick(Sender: TObject);
     procedure Button_obliczSHAClick(Sender: TObject);
     procedure Button_odgClick(Sender: TObject);
+    procedure Button_odgShaClick(Sender: TObject);
     procedure Button_sprawdzClick(Sender: TObject);
     procedure Button_szyfrujXORClick(Sender: TObject);
     procedure Button_zapiszClick(Sender: TObject);
@@ -256,6 +258,64 @@ begin
   exit(False);
 end;
 
+function odgadnijHasloSHA: bool;
+var
+  baza, dlugosc, max, i, j, k, zwiekszO: integer;
+var
+  czas: TDateTime;
+var
+  msg, sha: string;
+var
+  kombinacja: IntArray;
+begin
+  baza := odgZnaki.Length;
+  dlugosc := StrToInt(Form1.Edit_odgDlugosc.Text);
+  SetLength(kombinacja, dlugosc);
+  for j := 0 to dlugosc - 1 do
+    kombinacja[j] := 0;
+  max := baza ** dlugosc;
+  Form1.Memo1.Append('Ilość kombinacji haseł: ' + IntToStr(max));
+  czas := Now;
+  msg := '';
+  for i := 0 to max - 1 do
+  begin
+    if (i <> 0) and (i mod 900 = 0) then
+      Form1.Memo1.Append('Sprawdzono ' + IntToStr(i) + ' kombinacji w ' +
+        IntToStr(SecondsBetween(Now, czas)) + ' sekund. Ostatnie sprawdzone haslo: ' + msg);
+    msg := '';
+    for k in kombinacja do
+      msg := msg + odgZnaki[k + 1];
+
+    zwiekszO := 1;
+    for j := dlugosc - 1 downto 0 do
+    begin
+      kombinacja[j] += zwiekszO;
+      if (kombinacja[j] >= baza) then
+      begin
+        kombinacja[j] := 0;
+        zwiekszO := 1;
+      end
+      else
+        zwiekszO := 0;
+    end;
+
+    sha := SHA256ToHex(Oblicz_SHA256(msg));
+
+    if (sha = Form1.Edit_sha.Text) then
+    begin
+      Form1.Memo1.Append('Haslo odgadniete po ' + IntToStr(i) +
+        ' kombinacjach w ' + IntToStr(SecondsBetween(Now, czas)) +
+        ' sekund. Znalezione haslo: ' + msg + ', skrot: ' + sha);
+      exit(True);
+    end;
+  end;
+  Form1.Memo1.Append('Haslo nie zostalo odgadniete po  ' + IntToStr(i) +
+    ' kombinacjach w ' + IntToStr(SecondsBetween(Now, czas)) +
+    ' sekund. Ostatnie probowane haslo: ' + msg + ', skrot: ' + sha);
+  exit(False);
+end;
+
+
 function WalidacjaDlugosc: bool;
 var
   DlugoscHasla: integer;
@@ -437,6 +497,13 @@ end;
 procedure TForm1.Button_odgClick(Sender: TObject);
 begin
   odgadnijHaslo;
+end;
+
+procedure TForm1.Button_odgShaClick(Sender: TObject);
+begin
+  if (Edit_sha.Text = '') then
+        Edit_sha.Text:= SHA256ToHex(Oblicz_SHA256(Edit_haslo.Text));
+  odgadnijHasloSHA;
 end;
 
 procedure TForm1.Button1Click(Sender: TObject);
