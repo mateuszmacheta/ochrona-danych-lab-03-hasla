@@ -59,6 +59,7 @@ type
     Max: TLabel;
     Min: TLabel;
     procedure Button1Click(Sender: TObject);
+    procedure Button_deszyfrujXORClick(Sender: TObject);
     procedure Button_infoClick(Sender: TObject);
     procedure Button_obliczSHAClick(Sender: TObject);
     procedure Button_odgClick(Sender: TObject);
@@ -122,15 +123,6 @@ function SHA256ToHex(Skrot : ArrayOf32Byte) : String;
           HexStr:= HexStr + IntToHex(Skrot[i],2);
           SHA256ToHex:=HexStr;
   end;
-Function HexToStr(s: String): String;
-  Var i: Integer;
-  Begin
-    Result:=''; i:=1;
-    While i<Length(s) Do Begin
-      Result:=Result+Chr(StrToIntDef('$'+Copy(s,i,2),0));
-      Inc(i,2);
-    End;
-  End;
 
 Function byteArray2Str(szyfrogram: array of Byte) : String;
 var output: string;
@@ -450,6 +442,31 @@ end;
 procedure TForm1.Button1Click(Sender: TObject);
 begin
   Memo1.Clear;
+end;
+
+procedure TForm1.Button_deszyfrujXORClick(Sender: TObject);
+var
+  i, sLen: integer;
+  szyfrogramHex: string;
+  oryginal: ArrayOfByte;
+  szyfrogramS, oryginalS: string;
+begin
+  szyfrogramHex := InputBox('Podaj szyfrogram','Podaj zaszyfrowany tekst w postaci szesnastkowej' , '');
+  //DEBUG szyfrogramHex := 'EB5BC458';
+  szyfrogramS := '';
+  oryginalS := '';
+  i := 1; sLen := Length(szyfrogramHex);
+  while(i<=sLen) do
+  begin
+    szyfrogramS := szyfrogramS + Chr(StrToIntDef('$'+Copy(szyfrogramHex,i,2),0));
+    Inc(i,2);
+  end;
+  oryginal := wykonajXOR(szyfrogramS);
+     for i:=1 to Length(oryginal) do
+  begin
+    oryginalS := oryginalS + Char(oryginal[i-1]);
+  end;
+  InputBox('Oryginalny tekst','Oryginalny tekst szyfrogramu >' + szyfrogramHex + '<' ,PChar(oryginalS));
 end;
 
 procedure TForm1.Button_sprawdzClick(Sender: TObject);
